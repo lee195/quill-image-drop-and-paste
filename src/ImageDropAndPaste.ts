@@ -131,15 +131,12 @@ class ImageDropAndPaste extends QuillImageDropAndPaste {
       const blob = file.getAsFile ? file.getAsFile() : file;
       if (blob instanceof Blob) reader.readAsDataURL(blob);
     } else if (type.match(/^text\/plain$/i)) {
-      e.preventDefault();
       file.getAsString((s) => {
         utils
           .urlIsImage(s)
           .then(() => {
+            e.preventDefault();
             that.insert(s, 'image');
-          })
-          .catch(() => {
-            that.insert(s, 'text');
           });
       });
     }
